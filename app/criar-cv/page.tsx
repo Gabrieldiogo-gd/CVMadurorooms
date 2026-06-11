@@ -179,10 +179,17 @@ const [nome, setNome] = useState("");
   />
 )}
 
-          <h2 className="text-4xl font-bold text-blue-700">
-            {nome || "O Seu Nome"}
-          </h2>
-
+          <h2
+  className={`text-4xl font-bold ${
+    modelo === "minimalista"
+      ? "text-black"
+      : modelo === "executivo"
+      ? "text-gray-800"
+      : "text-blue-700"
+  }`}
+>
+  {nome || "O Seu Nome"}
+</h2>
           <div className="mt-4 text-gray-700">
             <p>{email || "email@exemplo.com"}</p>
             <p>{telefone || "000 000 000"}</p>
