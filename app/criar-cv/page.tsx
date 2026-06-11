@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 export default function CriarCV() {
+const [modelo, setModelo] = useState("moderno");
 const [foto, setFoto] = useState<string | null>(null);  
 const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
@@ -23,11 +24,43 @@ const [nome, setNome] = useState("");
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
 
         {/* Formulário */}
-        <div className="bg-white p-6 rounded-xl shadow">
+        <div
+  className={`p-8 rounded-xl shadow ${
+    modelo === "executivo"
+      ? "bg-gray-100"
+      : modelo === "criativo"
+      ? "bg-blue-50"
+      : "bg-white"
+  }`}
+>
           <h1 className="text-3xl font-bold mb-6">
-            Criar Currículo
-          </h1>
+  Criar Currículo
+</h1>
 
+<select
+  value={modelo}
+  onChange={(e) => setModelo(e.target.value)}
+  className="w-full border p-3 rounded mb-6"
+>
+  <option value="moderno">Moderno</option>
+  <option value="minimalista">Minimalista</option>
+  <option value="executivo">Executivo</option>
+  <option value="criativo">Criativo</option>
+</select>
+
+<h2 className="text-xl font-bold mb-4">
+  Dados Pessoais
+</h2>
+<select
+  value={modelo}
+  onChange={(e) => setModelo(e.target.value)}
+  className="w-full border p-3 rounded mb-6"
+>
+  <option value="moderno">Moderno</option>
+  <option value="minimalista">Minimalista</option>
+  <option value="executivo">Executivo</option>
+  <option value="criativo">Criativo</option>
+</select>
           <h2 className="text-xl font-bold mb-4">
             Dados Pessoais
           </h2>
