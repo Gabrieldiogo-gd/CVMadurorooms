@@ -1,7 +1,9 @@
+
 "use client";
 
 import { useState } from "react";
-
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 export default function CriarCV() {
 const [modelo, setModelo] = useState("moderno");
 const [foto, setFoto] = useState<string | null>(null);  
@@ -18,7 +20,24 @@ const [nome, setNome] = useState("");
   const [curso, setCurso] = useState("");
 
   const [competencias, setCompetencias] = useState("");
+const gerarPDF = async () => {
+  const element = document.getElementById("curriculo-preview");
 
+  if (!element) return;
+
+  const canvas = await html2canvas(element);
+
+  const imgData = canvas.toDataURL("image/png");
+
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const width = 190;
+  const height = (canvas.height * width) / canvas.width;
+
+  pdf.addImage(imgData, "PNG", 10, 10, width, height);
+
+  pdf.save("curriculo.pdf");
+};
   return (
     <main className="min-h-screen bg-gray-100 p-6">
       <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-8">
@@ -51,19 +70,10 @@ const [nome, setNome] = useState("");
 <h2 className="text-xl font-bold mb-4">
   Dados Pessoais
 </h2>
-<select
-  value={modelo}
-  onChange={(e) => setModelo(e.target.value)}
-  className="w-full border p-3 rounded mb-6"
->
-  <option value="moderno">Moderno</option>
-  <option value="minimalista">Minimalista</option>
-  <option value="executivo">Executivo</option>
-  <option value="criativo">Criativo</option>
-</select>
-          <h2 className="text-xl font-bold mb-4">
-            Dados Pessoais
-          </h2>
+   
+
+
+
 <input
   type="file"
   accept="image/*"
@@ -169,8 +179,11 @@ const [nome, setNome] = useState("");
           />
         </div>
 
-        {/* Pré-visualização */}
-        <div className="bg-white p-8 rounded-xl shadow">
+       {/* Pré-visualização */}
+<div
+  id="curriculo-preview"
+  className="bg-white p-8 rounded-xl shadow"
+>
 {foto && (
   <img
     src={foto}
@@ -190,6 +203,8 @@ const [nome, setNome] = useState("");
 >
   {nome || "O Seu Nome"}
 </h2>
+
+
           <div className="mt-4 text-gray-700">
             <p>{email || "email@exemplo.com"}</p>
             <p>{telefone || "000 000 000"}</p>
@@ -237,6 +252,14 @@ const [nome, setNome] = useState("");
           <p>
             {competencias || "Competências do candidato"}
           </p>
+        <div className="mt-8 text-center">
+  <button
+    onClick={gerarPDF}
+    className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
+  >
+    📄 Descarregar PDF
+  </button>
+</div>
         </div>
 
       </div>
