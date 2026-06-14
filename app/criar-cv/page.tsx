@@ -5,38 +5,51 @@ import { useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 export default function CriarCV() {
+const [idiomas, setIdiomas] = useState("");
 const [modelo, setModelo] = useState("moderno");
 const [foto, setFoto] = useState<string | null>(null);  
 const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cidade, setCidade] = useState("");
-
+  const [linkedin, setLinkedin] = useState("");
   const [empresa, setEmpresa] = useState("");
   const [cargo, setCargo] = useState("");
   const [descricao, setDescricao] = useState("");
-
+  const [carta, setCarta] = useState("");
   const [escola, setEscola] = useState("");
   const [curso, setCurso] = useState("");
 
   const [competencias, setCompetencias] = useState("");
-const gerarPDF = async () => {
-  const element = document.getElementById("curriculo-preview");
+ const gerarPDF = async () => {
+  try {
+    const element = document.getElementById("curriculo-preview");
 
-  if (!element) return;
+    if (!element) {
+      alert("Não foi encontrada a pré-visualização do currículo.");
+      return;
+    }
 
-  const canvas = await html2canvas(element);
+    const canvas = await html2canvas(element, {
+  scale: 2,
+  useCORS: true,
+  backgroundColor: "#ffffff",
+});
 
-  const imgData = canvas.toDataURL("image/png");
+    const imgData = canvas.toDataURL("image/png");
 
-  const pdf = new jsPDF("p", "mm", "a4");
+    const pdf = new jsPDF("p", "mm", "a4");
 
-  const width = 190;
-  const height = (canvas.height * width) / canvas.width;
+    const pdfWidth = 190;
+    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-  pdf.addImage(imgData, "PNG", 10, 10, width, height);
+    pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight);
 
-  pdf.save("curriculo.pdf");
+    pdf.save("curriculo.pdf");
+  } catch (error) {
+    console.error(error);
+    alert("Erro ao gerar PDF. Ver consola.");
+  }
 };
   return (
     <main className="min-h-screen bg-gray-100 p-6">
@@ -117,7 +130,14 @@ const gerarPDF = async () => {
             onChange={(e) => setCidade(e.target.value)}
             className="w-full border p-3 rounded mb-6"
           />
-
+          
+          <input
+  type="text"
+  placeholder="LinkedIn"
+  value={linkedin}
+  onChange={(e) => setLinkedin(e.target.value)}
+  className="w-full border p-3 rounded mb-6"
+/>
           <h2 className="text-xl font-bold mb-4">
             Experiência Profissional
           </h2>
@@ -177,11 +197,35 @@ const gerarPDF = async () => {
             onChange={(e) => setCompetencias(e.target.value)}
             className="w-full border p-3 rounded"
           />
-        </div>
+          <h2 className="text-xl font-bold mb-4 mt-6">
+  Idiomas
+</h2>
+
+<input
+  type="text"
+  placeholder="Ex: Português, Inglês, Espanhol"
+  value={idiomas}
+  onChange={(e) => setIdiomas(e.target.value)}
+  className="w-full border p-3 rounded"
+/>
+        
+<h2 className="text-xl font-bold mb-4 mt-6">
+  Carta de Condução
+</h2>
+
+<input
+  type="text"
+  placeholder="Ex: Categoria B"
+  value={carta}
+  onChange={(e) => setCarta(e.target.value)}
+  className="w-full border p-3 rounded"
+/>
+</div>
 
        {/* Pré-visualização */}
 <div
   id="curriculo-preview"
+  style={{ backgroundColor: "#ffffff", color: "#000000" }}
   className="bg-white p-8 rounded-xl shadow"
 >
 {foto && (
@@ -209,7 +253,8 @@ const gerarPDF = async () => {
             <p>{email || "email@exemplo.com"}</p>
             <p>{telefone || "000 000 000"}</p>
             <p>{cidade || "Cidade"}</p>
-          </div>
+            <p>{linkedin || "linkedin.com/in/perfil"}</p>  
+        </div>
 
           <hr className="my-6" />
 
@@ -248,10 +293,30 @@ const gerarPDF = async () => {
           <h3 className="text-xl font-bold mb-2">
             Competências
           </h3>
+          <hr className="my-6" />
 
-          <p>
+<h3 className="text-xl font-bold mb-2">
+  Idiomas
+</h3>
+
+<p>
             {competencias || "Competências do candidato"}
           </p>
+
+<p>
+  {idiomas || "Português"}
+</p>
+
+<hr className="my-6" />
+
+<h3 className="text-xl font-bold mb-2">
+  Carta de Condução
+</h3>
+
+<p>
+  {carta || "Categoria B"}
+</p>
+
         <div className="mt-8 text-center">
   <button
     onClick={gerarPDF}
