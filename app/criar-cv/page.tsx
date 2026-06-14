@@ -13,9 +13,23 @@ const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
   const [cidade, setCidade] = useState("");
   const [linkedin, setLinkedin] = useState("");
-  const [empresa, setEmpresa] = useState("");
-const [cargo, setCargo] = useState("");
-const [descricao, setDescricao] = useState("");
+  const [experiencias, setExperiencias] = useState([
+  {
+    empresa: "",
+    cargo: "",
+    descricao: "",
+  },
+]);
+const adicionarExperiencia = () => {
+  setExperiencias([
+    ...experiencias,
+    {
+      empresa: "",
+      cargo: "",
+      descricao: "",
+    },
+  ]);
+};
 
 
 
@@ -150,35 +164,54 @@ const [descricao, setDescricao] = useState("");
           </h2>
 
           <input
-            type="text"
-            placeholder="Empresa"
-            value={empresa}
-            onChange={(e) => setEmpresa(e.target.value)}
-            className="w-full border p-3 rounded mb-4"
-          />
+  type="text"
+  placeholder="Empresa"
+  value={experiencias[0].empresa}
+  onChange={(e) => {
+    const novas = [...experiencias];
+    novas[0].empresa = e.target.value;
+    setExperiencias(novas);
+  }}
+  className="w-full border p-3 rounded mb-4"
+/>
 
           <input
-            type="text"
-            placeholder="Cargo"
-            value={cargo}
-            onChange={(e) => setCargo(e.target.value)}
-            className="w-full border p-3 rounded mb-4"
-          />
+  type="text"
+  placeholder="Cargo"
+  value={experiencias[0].cargo}
+  onChange={(e) => {
+    const novas = [...experiencias];
+    novas[0].cargo = e.target.value;
+    setExperiencias(novas);
+  }}
+  className="w-full border p-3 rounded mb-4"
+/>
+
+
 
           <textarea
-            placeholder="Descrição das funções"
-            value={descricao}
-            onChange={(e) => setDescricao(e.target.value)}
-            className="w-full border p-3 rounded mb-6"
-            rows={4}
-          />
+  placeholder="Descrição das funções"
+  value={experiencias[0].descricao}
+  onChange={(e) => {
+    const novas = [...experiencias];
+    novas[0].descricao = e.target.value;
+    setExperiencias(novas);
+  }}
+  className="w-full border p-3 rounded mb-6"
+  rows={4}
+/>
+
+
 
 <button
   type="button"
+  onClick={adicionarExperiencia}
   className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
 >
    Adicionar Experiência
 </button>
+
+
 
 
           <h2 className="text-xl font-bold mb-4">
@@ -309,17 +342,19 @@ const [descricao, setDescricao] = useState("");
             Experiência Profissional
           </h3>
 
+          
           <p className="font-semibold">
-            {cargo || "Cargo"}
-          </p>
+  {experiencias[0].cargo || "Cargo"}
+</p>
 
-          <p>
-            {empresa || "Empresa"}
-          </p>
+<p>
+  {experiencias[0].empresa || "Empresa"}
+</p>
 
-          <p className="text-gray-600">
-            {descricao || "Descrição das funções"}
-          </p>
+<p className="text-gray-600">
+  {experiencias[0].descricao || "Descrição das funções"}
+</p>
+          
 
           <hr className="my-6" />
 
