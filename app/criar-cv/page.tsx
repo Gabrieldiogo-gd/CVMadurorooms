@@ -175,9 +175,9 @@ const [descricao, setDescricao] = useState("");
 
 <button
   type="button"
-  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mb-6"
+  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
 >
-  ➕ Adicionar Experiência
+   Adicionar Experiência
 </button>
 
 
@@ -201,6 +201,15 @@ const [descricao, setDescricao] = useState("");
             className="w-full border p-3 rounded mb-6"
           />
 
+<button
+  type="button"
+  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
+>
+   Adicionar Formação Académica
+</button>
+
+
+
           <h2 className="text-xl font-bold mb-4">
             Competências
           </h2>
@@ -212,6 +221,16 @@ const [descricao, setDescricao] = useState("");
             onChange={(e) => setCompetencias(e.target.value)}
             className="w-full border p-3 rounded"
           />
+
+
+<button
+  type="button"
+  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
+>
+   Adicionar Competências
+</button>
+
+
           <h2 className="text-xl font-bold mb-4 mt-6">
   Idiomas
 </h2>
@@ -224,6 +243,16 @@ const [descricao, setDescricao] = useState("");
   className="w-full border p-3 rounded"
 />
         
+
+<button
+  type="button"
+  className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
+>
+   Adicionar Idiomas      
+</button>
+
+
+
 <h2 className="text-xl font-bold mb-4 mt-6">
   Carta de Condução
 </h2>
@@ -235,6 +264,9 @@ const [descricao, setDescricao] = useState("");
   onChange={(e) => setCarta(e.target.value)}
   className="w-full border p-3 rounded"
 />
+
+
+
 </div>
 
        {/* Pré-visualização */}
