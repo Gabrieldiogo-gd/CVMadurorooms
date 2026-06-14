@@ -14,8 +14,15 @@ const [nome, setNome] = useState("");
   const [cidade, setCidade] = useState("");
   const [linkedin, setLinkedin] = useState("");
   const [empresa, setEmpresa] = useState("");
-  const [cargo, setCargo] = useState("");
-  const [descricao, setDescricao] = useState("");
+const [cargo, setCargo] = useState("");
+const [descricao, setDescricao] = useState("");
+
+
+
+
+
+
+
   const [carta, setCarta] = useState("");
   const [escola, setEscola] = useState("");
   const [curso, setCurso] = useState("");
@@ -165,6 +172,14 @@ const [nome, setNome] = useState("");
             className="w-full border p-3 rounded mb-6"
             rows={4}
           />
+
+<button
+  type="button"
+  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mb-6"
+>
+  ➕ Adicionar Experiência
+</button>
+
 
           <h2 className="text-xl font-bold mb-4">
             Formação Académica
