@@ -163,54 +163,57 @@ const adicionarExperiencia = () => {
             Experiência Profissional
           </h2>
 
-          <input
-  type="text"
-  placeholder="Empresa"
-  value={experiencias[0].empresa}
-  onChange={(e) => {
-    const novas = [...experiencias];
-    novas[0].empresa = e.target.value;
-    setExperiencias(novas);
-  }}
-  className="w-full border p-3 rounded mb-4"
-/>
+          {experiencias.map((exp, index) => (
+  <div key={index} className="mb-6 border-b pb-4">
+    <h3 className="font-bold mb-2">
+      Experiência {index + 1}
+    </h3>
 
-          <input
-  type="text"
-  placeholder="Cargo"
-  value={experiencias[0].cargo}
-  onChange={(e) => {
-    const novas = [...experiencias];
-    novas[0].cargo = e.target.value;
-    setExperiencias(novas);
-  }}
-  className="w-full border p-3 rounded mb-4"
-/>
+    <input
+      type="text"
+      placeholder="Empresa"
+      value={exp.empresa}
+      onChange={(e) => {
+        const novas = [...experiencias];
+        novas[index].empresa = e.target.value;
+        setExperiencias(novas);
+      }}
+      className="w-full border p-3 rounded mb-4"
+    />
 
+    <input
+      type="text"
+      placeholder="Cargo"
+      value={exp.cargo}
+      onChange={(e) => {
+        const novas = [...experiencias];
+        novas[index].cargo = e.target.value;
+        setExperiencias(novas);
+      }}
+      className="w-full border p-3 rounded mb-4"
+    />
 
-
-          <textarea
-  placeholder="Descrição das funções"
-  value={experiencias[0].descricao}
-  onChange={(e) => {
-    const novas = [...experiencias];
-    novas[0].descricao = e.target.value;
-    setExperiencias(novas);
-  }}
-  className="w-full border p-3 rounded mb-6"
-  rows={4}
-/>
-
-
+    <textarea
+      placeholder="Descrição das funções"
+      value={exp.descricao}
+      onChange={(e) => {
+        const novas = [...experiencias];
+        novas[index].descricao = e.target.value;
+        setExperiencias(novas);
+      }}
+      className="w-full border p-3 rounded mb-4"
+      rows={4}
+    />
+  </div>
+))}
 
 <button
   type="button"
   onClick={adicionarExperiencia}
   className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
 >
-   Adicionar Experiência
+  Adicionar Experiência
 </button>
-
 
 
 
