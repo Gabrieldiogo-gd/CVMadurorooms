@@ -5,7 +5,29 @@ import { useState } from "react";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 export default function CriarCV() {
-const [idiomas, setIdiomas] = useState("");
+
+const [idiomas, setIdiomas] = useState([
+  {
+    nome: "",
+  },
+]);
+const adicionarIdioma = () => {
+  setIdiomas([
+    ...idiomas,
+    {
+      nome: "",
+    },
+  ]);
+};
+
+const removerIdioma = (index: number) => {
+  if (idiomas.length === 1) return;
+
+  const novos = idiomas.filter((_, i) => i !== index);
+  setIdiomas(novos);
+};
+
+
 const [modelo, setModelo] = useState("moderno");
 const [foto, setFoto] = useState<string | null>(null);  
 const [nome, setNome] = useState("");
@@ -31,17 +53,62 @@ const adicionarExperiencia = () => {
   ]);
 };
 
+const removerExperiencia = (index: number) => {
+  if (experiencias.length === 1) return;
+
+  const novas = experiencias.filter((_, i) => i !== index);
+  setExperiencias(novas);
+};
+
+const [carta, setCarta] = useState("");
 
 
+  const [formacoes, setFormacoes] = useState([
+  {
+    escola: "",
+    curso: "",
+  },
+]);
 
+const adicionarFormacao = () => {
+  setFormacoes([
+    ...formacoes,
+    {
+      escola: "",
+      curso: "",
+    },
+  ]);
+};
 
+const removerFormacao = (index: number) => {
+  if (formacoes.length === 1) return;
 
+  const novas = formacoes.filter((_, i) => i !== index);
+  setFormacoes(novas);
+};
 
-  const [carta, setCarta] = useState("");
-  const [escola, setEscola] = useState("");
-  const [curso, setCurso] = useState("");
+const [competencias, setCompetencias] = useState([
+  {
+    nome: "",
+  },
+]);
+ 
+const adicionarCompetencia = () => {
+  setCompetencias([
+    ...competencias,
+    {
+      nome: "",
+    },
+  ]);
+};
 
-  const [competencias, setCompetencias] = useState("");
+const removerCompetencia = (index: number) => {
+  if (competencias.length === 1) return;
+
+  const novas = competencias.filter((_, i) => i !== index);
+  setCompetencias(novas);
+};
+
  const gerarPDF = async () => {
   try {
     const element = document.getElementById("curriculo-preview");
@@ -165,9 +232,19 @@ const adicionarExperiencia = () => {
 
           {experiencias.map((exp, index) => (
   <div key={index} className="mb-6 border-b pb-4">
-    <h3 className="font-bold mb-2">
-      Experiência {index + 1}
-    </h3>
+    <div className="flex justify-between items-center mb-2">
+  <h3 className="font-bold">
+    Experiência {index + 1}
+  </h3>
+
+  <button
+    type="button"
+    onClick={() => removerExperiencia(index)}
+    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm"
+  >
+    Remover
+  </button>
+</div>
 
     <input
       type="text"
@@ -221,24 +298,53 @@ const adicionarExperiencia = () => {
             Formação Académica
           </h2>
 
-          <input
-            type="text"
-            placeholder="Escola ou Universidade"
-            value={escola}
-            onChange={(e) => setEscola(e.target.value)}
-            className="w-full border p-3 rounded mb-4"
-          />
+          {formacoes.map((formacao, index) => (
+  <div key={index} className="mb-6 border-b pb-4">
+    
 
-          <input
-            type="text"
-            placeholder="Curso"
-            value={curso}
-            onChange={(e) => setCurso(e.target.value)}
-            className="w-full border p-3 rounded mb-6"
-          />
+<div className="flex justify-between items-center mb-2">
+  <h3 className="font-bold">
+    Formação {index + 1}
+  </h3>
+
+  <button
+    type="button"
+    onClick={() => removerFormacao(index)}
+    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm"
+  >
+    Remover
+  </button>
+</div>
+
+    <input
+      type="text"
+      placeholder="Escola ou Universidade"
+      value={formacao.escola}
+      onChange={(e) => {
+        const novas = [...formacoes];
+        novas[index].escola = e.target.value;
+        setFormacoes(novas);
+      }}
+      className="w-full border p-3 rounded mb-4"
+    />
+
+    <input
+      type="text"
+      placeholder="Curso"
+      value={formacao.curso}
+      onChange={(e) => {
+        const novas = [...formacoes];
+        novas[index].curso = e.target.value;
+        setFormacoes(novas);
+      }}
+      className="w-full border p-3 rounded mb-4"
+    />
+  </div>
+))}
 
 <button
   type="button"
+  onClick={adicionarFormacao}
   className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
 >
    Adicionar Formação Académica
@@ -250,17 +356,42 @@ const adicionarExperiencia = () => {
             Competências
           </h2>
 
-          <input
-            type="text"
-            placeholder="Ex: Excel, Word, Atendimento ao Cliente"
-            value={competencias}
-            onChange={(e) => setCompetencias(e.target.value)}
-            className="w-full border p-3 rounded"
-          />
+          {competencias.map((competencia, index) => (
+  <div key={index} className="mb-4">
+    
+
+     <div className="flex justify-between items-center mb-2">
+  <h3 className="font-bold">
+    Competência {index + 1}
+  </h3>
+
+  <button
+    type="button"
+    onClick={() => removerCompetencia(index)}
+    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm"
+  >
+    Remover
+  </button>
+</div>
+
+    <input
+      type="text"
+      placeholder="Ex: Excel"
+      value={competencia.nome}
+      onChange={(e) => {
+        const novas = [...competencias];
+        novas[index].nome = e.target.value;
+        setCompetencias(novas);
+      }}
+      className="w-full border p-3 rounded"
+    />
+  </div>
+))}
 
 
 <button
   type="button"
+  onClick={adicionarCompetencia}
   className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
 >
    Adicionar Competências
@@ -271,17 +402,42 @@ const adicionarExperiencia = () => {
   Idiomas
 </h2>
 
-<input
-  type="text"
-  placeholder="Ex: Português, Inglês, Espanhol"
-  value={idiomas}
-  onChange={(e) => setIdiomas(e.target.value)}
-  className="w-full border p-3 rounded"
-/>
+{idiomas.map((idioma, index) => (
+  <div key={index} className="mb-4">
+    
+
+    <div className="flex justify-between items-center mb-2">
+  <h3 className="font-bold">
+    Idioma {index + 1}
+  </h3>
+
+  <button
+    type="button"
+    onClick={() => removerIdioma(index)}
+    className="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm"
+  >
+    Remover
+  </button>
+</div>
+
+    <input
+      type="text"
+      placeholder="Ex: Português"
+      value={idioma.nome}
+      onChange={(e) => {
+        const novos = [...idiomas];
+        novos[index].nome = e.target.value;
+        setIdiomas(novos);
+      }}
+      className="w-full border p-3 rounded"
+    />
+  </div>
+))}
         
 
 <button
   type="button"
+  onClick={adicionarIdioma}
   className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded mb-4"
 >
    Adicionar Idiomas      
@@ -346,17 +502,21 @@ const adicionarExperiencia = () => {
           </h3>
 
           
-          <p className="font-semibold">
-  {experiencias[0].cargo || "Cargo"}
-</p>
+          {experiencias.map((exp, index) => (
+  <div key={index} className="mb-4">
+    <p className="font-semibold">
+      {exp.cargo || `Cargo ${index + 1}`}
+    </p>
 
-<p>
-  {experiencias[0].empresa || "Empresa"}
-</p>
+    <p>
+      {exp.empresa || `Empresa ${index + 1}`}
+    </p>
 
-<p className="text-gray-600">
-  {experiencias[0].descricao || "Descrição das funções"}
-</p>
+    <p className="text-gray-600">
+      {exp.descricao || "Descrição das funções"}
+    </p>
+  </div>
+))}
           
 
           <hr className="my-6" />
@@ -365,13 +525,17 @@ const adicionarExperiencia = () => {
             Formação Académica
           </h3>
 
-          <p className="font-semibold">
-            {curso || "Curso"}
-          </p>
+          {formacoes.map((formacao, index) => (
+  <div key={index} className="mb-4">
+    <p className="font-semibold">
+      {formacao.curso || `Curso ${index + 1}`}
+    </p>
 
-          <p>
-            {escola || "Instituição"}
-          </p>
+    <p>
+      {formacao.escola || `Instituição ${index + 1}`}
+    </p>
+  </div>
+))}
 
           <hr className="my-6" />
 
@@ -384,13 +548,17 @@ const adicionarExperiencia = () => {
   Idiomas
 </h3>
 
-<p>
-            {competencias || "Competências do candidato"}
-          </p>
+{competencias.map((competencia, index) => (
+  <p key={index}>
+    {competencia.nome || `Competência ${index + 1}`}
+  </p>
+))}
 
-<p>
-  {idiomas || "Português"}
-</p>
+{idiomas.map((idioma, index) => (
+  <p key={index}>
+    {idioma.nome || `Idioma ${index + 1}`}
+  </p>
+))}
 
 <hr className="my-6" />
 
